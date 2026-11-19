@@ -1,0 +1,9 @@
+Raw PAXRAW activity is grouped by SEQN and sorted by PAXN, keeping PAXDAY, PAXHOUR, PAXMINUT, PAXINTEN, PAXSTAT, and PAXCAL on one participant-specific chronological minute grid.
+
+Invalid or missing PAXINTEN values, along with minutes that fail the PAXSTAT/PAXCAL calibration checks, are masked; gaps also interrupt Choi-style non-wear runs, whose default parameters are 90-minute minimum periods, 2-minute spike tolerance, a 100-count spike maximum, and 30-minute surrounding windows.
+
+The minute grid is divided into fixed 5-minute epochs, and intensity_mean is the average of PAXINTEN only for worn, valid minutes, while a total-wear-minute count and wear proportion are retained for coverage calculations.
+
+Each epoch receives an attention_flag by comparing its proportion of observed worn minutes with attention_tau=0.20; epochs below this coverage threshold are not prioritized for model windows, and all-invalid participants are excluded.
+
+Participant demographics and mortality fields are joined by SEQN, including RIDAGEYR and RIAGENDR plus mortstat and permth_int; eligibility and 60-month follow-up rules are applied before outcome-stratified, participant-level train/validation/test splitting.
